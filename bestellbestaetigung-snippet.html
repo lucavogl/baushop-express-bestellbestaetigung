@@ -155,7 +155,8 @@
     border-bottom: 1px solid var(--bd);
   }
   .bos-steps-inner { max-width: 1000px; margin: 0 auto; }
-  .bos-steps-head { text-align: center; margin-bottom: 40px; }
+  .bos-steps-head { text-align: center; margin-bottom: 32px; }
+  .bos-steps-head .bos-kicker { justify-content: center; margin-bottom: 0; }
   .bos-steps-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #bbb; margin: 0 0 10px; }
   .bos-steps-h2 {
     font-family: 'Barlow Condensed', sans-serif;
@@ -404,7 +405,7 @@
     <h1 class="bos-h1">Vielen Dank<br>für Ihre <em>Bestellung.</em></h1>
     <p class="bos-sub">
       Wir haben Ihre Bestellung erhalten und beginnen sofort mit der Bearbeitung.<br>
-      Eine Bestätigung haben wir an Ihre E-Mail-Adresse gesendet.
+      Eine Bestätigung haben wir an <span id="bos-confirm-email" style="font-weight:500;color:#1A1A1A;">Ihre E-Mail-Adresse</span> gesendet.
     </p>
 
     <div class="bos-order-wrap">
@@ -425,8 +426,10 @@
   <div class="bos-steps-inner">
 
     <div class="bos-steps-head">
-      <p class="bos-steps-label">Was passiert jetzt?</p>
-      <h2 class="bos-steps-h2">Ihre Bestellung.<br><em>Unser Versprechen.</em></h2>
+      <div class="bos-kicker" style="justify-content:flex-start;">
+        <div class="bos-kicker-bar"></div>
+        <span class="bos-kicker-text">Was passiert jetzt?</span>
+      </div>
     </div>
 
     <div class="bos-steps-grid">
@@ -1371,6 +1374,10 @@ function bosToggleSummary(badge){
   var numEl = document.getElementById('bos-order-num');
   if(numEl && numEl.textContent.indexOf('{{') !== -1){
     numEl.textContent = (window._bocData || {}).orderNum || '127574744';
+  }
+  var emailEl = document.getElementById('bos-confirm-email');
+  if(emailEl && (window._bocData || {}).custEmail){
+    emailEl.textContent = window._bocData.custEmail;
   }
 })();
 
