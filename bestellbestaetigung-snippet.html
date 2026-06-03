@@ -145,7 +145,7 @@
   .bos-sum-row-total .bos-sum-row-key { color: #666; font-weight: 600; }
   .bos-sum-row-total .bos-sum-row-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px; color: var(--bk); }
   .bos-sum-addrs { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .bos-sum-addr-label { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #ccc; margin: 0 0 8px; }
+  .bos-sum-addr-label { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #ccc; margin: 0 0 16px !important; }
   .bos-sum-addr-text { font-size: 13px; color: #666; line-height: 1.7; margin: 0; }
 
   /* ── NÄCHSTE SCHRITTE ─────────────────────── */
@@ -262,15 +262,13 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     color: var(--y);
-    opacity: 0;
+    opacity: 1;
     display: block;
     margin-top: 6px;
-    transform: translateX(-6px);
+    transform: translateX(0);
     transition: opacity .2s, transform .2s;
   }
-  a.bos-trust-col:hover .bos-widerruf-label { opacity: 1; transform: translateX(0); max-height: 24px; margin-top: 5px; }
   /* Hover-Labels aus dem Fluss nehmen damit Titel aller Spalten auf gleicher Höhe bleiben */
-  a.bos-trust-col .bos-widerruf-label,
   a.bos-trust-col .bos-call-label { max-height: 0; overflow: hidden; margin-top: 0; display: block; }
   a.bos-trust-col:hover .bos-call-label { opacity: 1; transform: translateX(0); max-height: 24px; margin-top: 5px; }
   .bos-trust-col:last-child { border-right: none; }
@@ -352,6 +350,19 @@
     .boc-modal-head { padding: 20px 20px 16px; }
     .boc-modal-body { padding: 20px; gap: 14px; }
     .boc-modal-title { font-size: 18px; }
+
+    /* Accordion Widerrufsbelehrung */
+    .bwf-acc-hd {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; background: none; border: none; cursor: pointer;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 15px;
+      text-transform: uppercase; color: #1A1A1A; letter-spacing: .3px; text-align: left;
+    }
+    .bwf-acc-hd:hover { background: #FAFAFA; }
+    .bwf-acc-chevron { width: 16px; height: 16px; flex-shrink: 0; transition: transform .2s; }
+    .bwf-acc-item.open .bwf-acc-chevron { transform: rotate(180deg); }
+    .bwf-acc-body { display: none; padding: 0 20px 16px; }
+    .bwf-acc-item.open .bwf-acc-body { display: block; }
 
     /* Datumsfelder untereinander statt nebeneinander */
     #bwfForm > div[style*="grid-template-columns:1fr 1fr"] {
@@ -476,10 +487,10 @@
 
     <a href="#" onclick="bwfOpen();return false;" class="bos-trust-col">
       <div class="bos-trust-icon">
-        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
       </div>
       <div>
-        <p class="bos-trust-title">30 Tage Rückgabe</p>
+        <p class="bos-trust-title">14 Tage Widerrufsrecht</p>
         <p class="bos-trust-sub">Kostenlos & unkompliziert</p>
         <span class="bos-widerruf-label">Vertrag widerrufen →</span>
       </div>
@@ -522,57 +533,15 @@
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA+gAAAExCAYAAADvDYgqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3NpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDA2IDc5LjE2NDY0OCwgMjAyMS8wMS8xMi0xNTo1MjoyOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowYTY1YTZiYy02NDM5LTJlNDEtOTgyNC1kNzM0YzAxYTFhZjUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzFBOUQwRDI5QzVDMTFFQkJFMEI5REEyNUU4MkY0QzQiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzFBOUQwRDE5QzVDMTFFQkJFMEI5REEyNUU4MkY0QzQiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIyLjIgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDVhODY5MWItMzAzOS04YTQxLTllNmUtMDc1MTZhNWVjNjE3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjBhNjVhNmJjLTY0MzktMmU0MS05ODI0LWQ3MzRjMDFhMWFmNSIvPiA8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" alt="Baushop Express" style="height:28px;width:auto;">
         <button class="boc-close" onclick="bwfClose()" aria-label="Schließen">✕</button>
       </div>
-      <p class="boc-modal-title">Widerrufsformular</p>
-      <p style="font-size:13px;color:#888;margin:4px 28px 0;">Füllen Sie das Online-Formular aus oder drucken Sie es und senden Sie es an die Baushop Express GmbH (per Brief oder Mail).</p>
+      <p class="boc-modal-title" id="bwfModalTitle">Widerrufsformular</p>
+      <p style="font-size:13px;color:#888;margin:4px 28px 0;">Füllen Sie das Online-Formular aus oder drucken Sie es und senden Sie es an die Baushop Express GmbH (per Formular, Brief oder Mail).</p>
     </div>
 
     <div class="boc-modal-body" style="gap:0;padding:0;">
 
-      <!-- Info-Bereich -->
-      <div style="padding:28px 28px 24px;display:flex;flex-direction:column;gap:0;border-bottom:1px solid #E2E2E2;">
-
-        <div style="border:1px solid #E2E2E2;border-radius:3px;overflow:hidden;">
-
-          <div style="padding:16px 20px;border-bottom:1px solid #E2E2E2;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;color:#1A1A1A;margin-bottom:8px;letter-spacing:.3px;">Widerrufsrecht</div>
-            <p style="font-size:13px;color:#666;line-height:1.75;margin:0;">Verbraucher haben das gesetzliche Recht, binnen <strong style="color:#1A1A1A;">vierzehn Tagen</strong> ohne Angaben von Gründen diesen Vertrag zu widerrufen. Geschäftskunden sowie Kunden mit Wohnsitz in der Schweiz sind ausgenommen. Die Frist beträgt 14 Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter die letzte Ware in Besitz genommen haben.</p>
-          </div>
-
-          <div style="padding:16px 20px;border-bottom:1px solid #E2E2E2;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;color:#1A1A1A;margin-bottom:8px;letter-spacing:.3px;">So erklären Sie den Widerruf</div>
-            <p style="font-size:13px;color:#666;line-height:1.75;margin:0 0 10px;">Mittels einer eindeutigen Erklärung (z.B. Brief, E-Mail oder Online-Formular) an:</p>
-            <div style="background:#F5F5F3;border-radius:3px;padding:12px 14px;font-size:13px;color:#555;line-height:1.7;">
-              Baushop Express GmbH · Dieselstraße 49 · 87437 Kempten<br>
-              E-Mail: service@baushop-express.com<br>
-              Tel: +49 831 / 575 35–55
-            </div>
-            <p style="font-size:13px;color:#666;line-height:1.75;margin:10px 0 0;">Zur Wahrung der Frist reicht es aus, die Mitteilung vor Ablauf der 14 Tage abzusenden.</p>
-          </div>
-
-          <div style="padding:16px 20px;border-bottom:1px solid #E2E2E2;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;color:#1A1A1A;margin-bottom:8px;letter-spacing:.3px;">Folgen des Widerrufs &amp; Rücksendung</div>
-            <p style="font-size:13px;color:#666;line-height:1.75;margin:0 0 8px;">Wir erstatten alle Zahlungen inkl. Lieferkosten innerhalb von 14 Tagen nach Eingang des Widerrufs — mit demselben Zahlungsmittel, das Sie bei der Transaktion eingesetzt haben. Rückzahlung kann verweigert werden, bis die Ware zurückerhalten wurde.</p>
-            <p style="font-size:13px;color:#666;line-height:1.75;margin:0;">Sie haben 14 Tage Zeit, die Ware zurückzusenden. Bei paketversandfähiger Ware tragen Sie die Kosten. Nicht-paketversandfähige Ware: max. 450 € (DE) bzw. 900 € (Ausland).</p>
-          </div>
-
-          <div style="padding:16px 20px;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;color:#1A1A1A;margin-bottom:8px;letter-spacing:.3px;">Ausnahmen</div>
-            <p style="font-size:13px;color:#666;line-height:1.75;margin:0 0 6px;">Das Widerrufsrecht besteht <strong style="color:#1A1A1A;">nicht</strong> bei:</p>
-            <ul style="font-size:13px;color:#666;line-height:1.75;margin:0;padding-left:18px;">
-              <li>Individuell angefertigten oder auf persönliche Bedürfnisse zugeschnittenen Waren</li>
-              <li>Waren, die schnell verderben können</li>
-              <li>Versiegelten Waren aus Hygienegründen, wenn die Versiegelung nach Lieferung entfernt wurde</li>
-              <li>Waren, die nach Lieferung untrennbar mit anderen Gütern vermischt wurden</li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-
       <!-- Formular-Bereich -->
-      <div style="border-top:1px solid #E2E2E2;padding:24px 28px 28px;background:#F5F5F3;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;color:#1A1A1A;margin-bottom:4px;letter-spacing:.3px;">Muster-Widerrufsformular</div>
-        <p style="font-size:13px;color:#888;margin:0 0 20px;">Füllen Sie das Formular aus und senden Sie es zurück an Baushop Express GmbH.</p>
+      <div style="padding:24px 28px 28px;background:#F5F5F3;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;color:#1A1A1A;margin-bottom:20px;letter-spacing:.3px;">Muster-Widerrufsformular</div>
 
         <form id="bwfForm" style="display:flex;flex-direction:column;gap:16px;" onsubmit="bwfSubmit(event)">
 
@@ -609,7 +578,7 @@
 
           <div class="boc-field">
             <label class="boc-label">Anschrift</label>
-            <textarea class="boc-textarea" id="bwfAnschrift" placeholder="Straße, PLZ, Ort" style="min-height:72px;" required></textarea>
+            <textarea class="boc-textarea" id="bwfAnschrift" placeholder="Straße, PLZ, Ort" style="min-height:72px;overflow:hidden;resize:none;" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" required></textarea>
           </div>
 
           <div class="boc-field">
@@ -623,7 +592,7 @@
           </div>
 
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <button type="submit" class="boc-submit" id="bwfSubmitBtn">Widerruf bestätigen →</button>
+            <button type="submit" class="boc-submit" id="bwfSubmitBtn">Jetzt widerrufen →</button>
             <button type="button" onclick="bwfPrint()" class="boc-submit" style="background:transparent;border-color:#E2E2E2;color:#aaa;">Drucken</button>
             <button type="button" onclick="bwfClose()" class="boc-submit" style="background:transparent;border-color:#E2E2E2;color:#aaa;">Schließen</button>
           </div>
@@ -648,6 +617,46 @@
         <div class="boc-success-msg" id="bwfSuccessMsg" style="margin-top:0;">
           <strong>Widerruf gesendet.</strong>
           Wir bestätigen Ihren Widerruf schnellstmöglich per E-Mail.
+        </div>
+      </div>
+
+      <!-- Info-Bereich -->
+      <div style="padding:28px 28px 24px;display:flex;flex-direction:column;gap:0;border-top:1px solid #E2E2E2;">
+        <div style="border:1px solid #E2E2E2;border-radius:3px;overflow:hidden;">
+
+          <div style="padding:16px 20px;border-bottom:1px solid #E2E2E2;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;color:#1A1A1A;margin-bottom:8px;letter-spacing:.3px;">Widerrufsrecht</div>
+            <p style="font-size:13px;color:#666;line-height:1.75;margin:0;">Verbraucher haben das gesetzliche Recht, binnen <strong style="color:#1A1A1A;">vierzehn Tagen</strong> ohne Angaben von Gründen diesen Vertrag zu widerrufen. Geschäftskunden sowie Kunden mit Wohnsitz in der Schweiz sind ausgenommen. Die Frist beträgt 14 Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter die letzte Ware in Besitz genommen haben.</p>
+          </div>
+
+          <div style="padding:16px 20px;border-bottom:1px solid #E2E2E2;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;color:#1A1A1A;margin-bottom:8px;letter-spacing:.3px;">So erklären Sie den Widerruf</div>
+            <p style="font-size:13px;color:#666;line-height:1.75;margin:0 0 10px;">Mittels einer eindeutigen Erklärung (z.B. Brief, E-Mail oder Online-Formular) an:</p>
+            <div style="background:#F5F5F3;border-radius:3px;padding:12px 14px;font-size:13px;color:#555;line-height:1.7;">
+              Baushop Express GmbH · Dieselstraße 49 · 87437 Kempten<br>
+              E-Mail: service@baushop-express.com<br>
+              Tel: +49 831 / 575 35–55
+            </div>
+            <p style="font-size:13px;color:#666;line-height:1.75;margin:10px 0 0;">Zur Wahrung der Frist reicht es aus, die Mitteilung vor Ablauf der 14 Tage abzusenden.</p>
+          </div>
+
+          <div style="padding:16px 20px;border-bottom:1px solid #E2E2E2;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;color:#1A1A1A;margin-bottom:8px;letter-spacing:.3px;">Folgen des Widerrufs &amp; Rücksendung</div>
+            <p style="font-size:13px;color:#666;line-height:1.75;margin:0 0 8px;">Wir erstatten alle Zahlungen inkl. Lieferkosten innerhalb von 14 Tagen nach Eingang des Widerrufs — mit demselben Zahlungsmittel, das Sie bei der Transaktion eingesetzt haben. Rückzahlung kann verweigert werden, bis die Ware zurückerhalten wurde.</p>
+            <p style="font-size:13px;color:#666;line-height:1.75;margin:0;">Sie haben 14 Tage Zeit, die Ware zurückzusenden. Bei paketversandfähiger Ware tragen Sie die Kosten. Nicht-paketversandfähige Ware: max. 450 € (DE) bzw. 900 € (Ausland).</p>
+          </div>
+
+          <div style="padding:16px 20px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;color:#1A1A1A;margin-bottom:8px;letter-spacing:.3px;">Ausnahmen</div>
+            <p style="font-size:13px;color:#666;line-height:1.75;margin:0 0 6px;">Das Widerrufsrecht besteht <strong style="color:#1A1A1A;">nicht</strong> bei:</p>
+            <ul style="font-size:13px;color:#666;line-height:1.75;margin:0;padding-left:18px;">
+              <li>Individuell angefertigten oder auf persönliche Bedürfnisse zugeschnittenen Waren</li>
+              <li>Waren, die schnell verderben können</li>
+              <li>Versiegelten Waren aus Hygienegründen, wenn die Versiegelung nach Lieferung entfernt wurde</li>
+              <li>Waren, die nach Lieferung untrennbar mit anderen Gütern vermischt wurden</li>
+            </ul>
+          </div>
+
         </div>
       </div>
 
@@ -1233,6 +1242,14 @@ function bwfPrint(){
 function bwfOpen(){
   /* Items aus Bestelldaten befüllen */
   var d = window._bocData || {};
+  /* Titel dynamisch setzen */
+  var titleEl = document.getElementById('bwfModalTitle');
+  if(titleEl){
+    var parts = ['Widerruf'];
+    if(d.orderNum) parts.push('Bestellung #' + d.orderNum);
+    if(d.custName) parts.push(d.custName);
+    titleEl.textContent = parts.join(' – ');
+  }
   var itemsList = document.getElementById('bwfItemsList');
   if(d.items && d.items.trim()){
     var html = '';
@@ -1256,6 +1273,15 @@ function bwfOpen(){
   } else {
     itemsList.innerHTML = '<textarea class="boc-textarea" id="bwfWarenManual" placeholder="Artikelbezeichnung(en) …" style="min-height:72px;border:none;resize:none;"></textarea>';
   }
+  /* Name + Anschrift aus Lieferadresse vorausfüllen */
+  if(d.shipAddr){
+    var addrLines = d.shipAddr.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
+    if(addrLines.length > 0) document.getElementById('bwfName').value = addrLines[0];
+    if(addrLines.length > 1){
+      var ta = document.getElementById('bwfAnschrift');
+      ta.value = addrLines.slice(1).join('\n');
+    }
+  }
   /* E-Mail vorausfüllen, Bestellt am = heute als Startwert */
   if(d.custEmail) document.getElementById('bwfEmail').value = d.custEmail;
   var today = new Date().toISOString().split('T')[0];
@@ -1267,6 +1293,10 @@ function bwfOpen(){
 
   document.getElementById('bwfBackdrop').classList.add('boc-open');
   document.body.style.overflow = 'hidden';
+  setTimeout(function(){
+    var ta = document.getElementById('bwfAnschrift');
+    if(ta && ta.value){ ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
+  }, 0);
 }
 function bwfClose(){
   document.getElementById('bwfBackdrop').classList.remove('boc-open');
@@ -1323,6 +1353,10 @@ function bosRenderSummary(d){
   return html;
 }
 
+function bwfAccToggle(btn){
+  btn.closest('.bwf-acc-item').classList.toggle('open');
+}
+
 function bosToggleSummary(badge){
   badge.classList.toggle('bos-open');
   var summary = document.getElementById('bosOrderSummary');
@@ -1337,6 +1371,17 @@ function bosToggleSummary(badge){
   var numEl = document.getElementById('bos-order-num');
   if(numEl && numEl.textContent.indexOf('{{') !== -1){
     numEl.textContent = (window._bocData || {}).orderNum || '127574744';
+  }
+})();
+
+/* Bestelldetails standardmäßig aufgeklappt */
+(function(){
+  var badge = document.getElementById('bosOrderBadge');
+  var summary = document.getElementById('bosOrderSummary');
+  if(badge && summary){
+    badge.classList.add('bos-open');
+    summary.classList.add('bos-open');
+    summary.innerHTML = bosRenderSummary(window._bocData || {});
   }
 })();
 </script>
